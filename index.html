@@ -1,1 +1,349 @@
-<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aaditya's Lab Hub</title><link rel="stylesheet" href="style.css"></head><body><header class="hero"><nav><b>LAB<span>HUB</span></b><button id="theme">☾</button></nav><div class="hero-content"><small>ENGINEERING LABORATORY</small><h1>Aaditya's<br><em>Lab Hub</em></h1><p>Experiments, code, screenshots and notes in one place.</p><input id="search" placeholder="Search subjects..." type="search"></div></header><main><small>COLLECTION</small><h2>Subjects</h2><div id="subjects" class="grid"></div></main><footer>15 experiment slots per subject · GitHub Pages ready</footer><script src="config.js"></script><script src="app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aaditya's Lab Hub</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0b0d12;
+            --panel: #12151d;
+            --text: #f4f6fa;
+            --muted: #9aa3b2;
+            --line: #292f3b;
+            --accent: #7c9cff;
+            --accent2: #a78bfa;
+        }
+
+        body.light {
+            --bg: #f5f6f8;
+            --panel: #ffffff;
+            --text: #151820;
+            --muted: #667085;
+            --line: #dce1e8;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", sans-serif;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .hero {
+            min-height: 520px;
+            padding: 25px 7vw 80px;
+            border-bottom: 1px solid var(--line);
+            background:
+                radial-gradient(circle at 75% 20%,
+                    rgba(124,156,255,0.18), transparent 35%),
+                radial-gradient(circle at 20% 80%,
+                    rgba(167,139,250,0.10), transparent 35%);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        #themeBtn {
+            border: 1px solid var(--line);
+            background: var(--panel);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            cursor: pointer;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            margin: 90px auto 0;
+            text-align: center;
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin: 0 0 12px;
+        }
+
+        h1 {
+            font-size: clamp(48px, 8vw, 90px);
+            line-height: 0.95;
+            letter-spacing: -4px;
+            margin: 0;
+        }
+
+        h1 span {
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 18px;
+            margin: 24px 0 30px;
+        }
+
+        #search {
+            width: min(650px, 100%);
+            padding: 17px 20px;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: var(--panel);
+            color: var(--text);
+            outline: none;
+            font-size: 16px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 55px 7vw;
+        }
+
+        .section-head {
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            font-size: 34px;
+            margin: 0;
+        }
+
+        .subject-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .subject {
+            display: block;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 24px;
+            transition: 0.2s;
+        }
+
+        .subject:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+
+        .subject-icon {
+            font-size: 32px;
+            margin-bottom: 18px;
+        }
+
+        .subject h3 {
+            margin: 0 0 8px;
+            font-size: 21px;
+        }
+
+        .subject p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .slots {
+            display: inline-block;
+            margin-top: 18px;
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .empty {
+            color: var(--muted);
+        }
+
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 25px 7vw;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                min-height: 450px;
+            }
+
+            .hero-content {
+                margin-top: 65px;
+            }
+
+            h1 {
+                letter-spacing: -2px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="hero">
+    <nav>
+        <div class="logo">LAB<span>HUB</span></div>
+        <button id="themeBtn">☾</button>
+    </nav>
+
+    <div class="hero-content">
+        <p class="eyebrow">ENGINEERING LABORATORY</p>
+
+        <h1>
+            Aaditya's<br>
+            <span>Lab Hub</span>
+        </h1>
+
+        <p class="subtitle">
+            All your experiments, code, screenshots and notes in one place.
+        </p>
+
+        <input
+            id="search"
+            type="search"
+            placeholder="Search experiments or subjects..."
+        >
+    </div>
+</header>
+
+<main>
+    <div class="section-head">
+        <p class="eyebrow">COLLECTION</p>
+        <h2>Subjects</h2>
+    </div>
+
+    <div id="subjects" class="subject-grid"></div>
+</main>
+
+<footer>
+    Aaditya's Lab Hub · 15 experiment slots per subject
+</footer>
+
+<script>
+    /*
+     * EDIT SUBJECT NAMES HERE.
+     *
+     * IMPORTANT:
+     * "id" must match the folder name inside /subjects/
+     * "name" is what appears on the website.
+     *
+     * Example:
+     *
+     * id: "digital-electronics"
+     * name: "VLSI"
+     *
+     * This lets you call the subject VLSI without changing
+     * the folder name.
+     */
+
+    const SUBJECTS = [
+        {
+            id: "digital-electronics",
+            name: "Digital Electronics",
+            icon: "🔌"
+        },
+        {
+            id: "8051",
+            name: "8051 Microcontroller",
+            icon: "⚙️"
+        },
+        {
+            id: "java",
+            name: "Java",
+            icon: "☕"
+        },
+        {
+            id: "dbms",
+            name: "DBMS",
+            icon: "🗄️"
+        },
+        {
+            id: "ai-python",
+            name: "AI / Python",
+            icon: "🤖"
+        }
+    ];
+
+    const subjectsBox = document.getElementById("subjects");
+    const searchBox = document.getElementById("search");
+
+    function renderSubjects(searchText = "") {
+        const query = searchText.toLowerCase().trim();
+
+        const filtered = SUBJECTS.filter(subject =>
+            subject.name.toLowerCase().includes(query)
+        );
+
+        if (filtered.length === 0) {
+            subjectsBox.innerHTML =
+                '<p class="empty">No subjects found.</p>';
+            return;
+        }
+
+        subjectsBox.innerHTML = filtered.map(subject => `
+            <a
+                class="subject"
+                href="subjects/${subject.id}/index.html"
+            >
+                <div class="subject-icon">${subject.icon}</div>
+
+                <h3>${subject.name}</h3>
+
+                <p>
+                    15 experiment slots for code,
+                    screenshots, notes and results.
+                </p>
+
+                <span class="slots">
+                    01 — 15 experiments →
+                </span>
+            </a>
+        `).join("");
+    }
+
+    searchBox.addEventListener("input", event => {
+        renderSubjects(event.target.value);
+    });
+
+    document.getElementById("themeBtn").addEventListener("click", () => {
+        document.body.classList.toggle("light");
+
+        document.getElementById("themeBtn").textContent =
+            document.body.classList.contains("light")
+                ? "☀"
+                : "☾";
+    });
+
+    renderSubjects();
+</script>
+
+</body>
+</html>
