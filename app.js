@@ -1,1 +1,24 @@
-<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Experiment 12</title><link rel="stylesheet" href="../../../experiment.css"></head><body><main><a href="../index.html">← Back to AI / Python</a><header><p class="eyebrow">AI / Python</p><h1>Experiment 12</h1><p class="muted">Replace the placeholders with your experiment.</p></header><section><h2>Aim</h2><p class="muted">Add the aim here.</p></section><section><h2>Theory</h2><p class="muted">Add theory here.</p></section><section><div class="row"><h2>Code</h2><button class="copy" onclick="copyCode()">Copy Code</button></div><pre id="code"><code>// Paste your code here</code></pre></section><section><h2>Output / Screenshots</h2><div class="shots"><div class="shot"><p>Screenshot 1</p><input type="file" accept="image/*"></div><div class="shot"><p>Screenshot 2</p><input type="file" accept="image/*"></div><div class="shot"><p>Screenshot 3</p><input type="file" accept="image/*"></div></div><p class="small">For permanent GitHub images, place PNG/JPG files in this experiment folder and add an &lt;img src="output.png"&gt; tag.</p></section><section><h2>Result</h2><p class="muted">Add the result here.</p></section></main><script>function copyCode(){navigator.clipboard.writeText(document.getElementById("code").innerText);document.querySelector(".copy").textContent="Copied!"}</script></body></html>
+const box = document.getElementById("subjects");
+const search = document.getElementById("search");
+
+function render(q = "") {
+    q = q.toLowerCase();
+
+    box.innerHTML = SUBJECTS
+        .filter(s => s.name.toLowerCase().includes(q))
+        .map(s => `
+            <a class="card" href="subjects/${s.id}/index.html">
+                <div class="icon">${s.icon}</div>
+                <h3>${s.name}</h3>
+                <p>15 slots for aim, theory, code, screenshots and result.</p>
+                <div class="slots">01 — 15 experiments</div>
+            </a>
+        `)
+        .join("");
+}
+
+search.addEventListener("input", e => {
+    render(e.target.value);
+});
+
+render();
