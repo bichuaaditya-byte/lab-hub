@@ -1,26 +1,26 @@
 const SUBJECTS = [
     {
-        id: "vlsi",
+        id: "digital-electronics",
         name: "VLSI",
         icon: "🔌"
     },
     {
-        id: "arm",
+        id: "8051",
         name: "ARM",
         icon: "⚙️"
     },
     {
-        id: "os",
+        id: "java",
         name: "OS",
-        icon: "☕"
+        icon: "💿"
     },
     {
-        id: "coa",
+        id: "dbms",
         name: "COA",
-        icon: "🗄️"
+        icon: "💻"
     },
     {
-        id: "iai",
+        id: "ai-python",
         name: "Instrumentation",
         icon: "🤖"
     }
